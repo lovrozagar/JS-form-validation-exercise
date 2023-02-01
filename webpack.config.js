@@ -53,7 +53,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Pan Do App',
+      title: 'Document',
       filename: 'index.html',
       template: 'src/template.html',
     }),
