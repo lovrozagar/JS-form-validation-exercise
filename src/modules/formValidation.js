@@ -79,7 +79,7 @@ const formValidation = (() => {
     if (isEmptyField(email, emailError)) return
 
     const emailPattern =
-      /^[a-zA-z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-z0-9.!#$%&'*+-/=?^_`{|}~]+$/
+      /^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+$/
     if (!emailPattern.test(email.value)) {
       emailError.textContent = 'Value entered must be an email'
       email.classList.add('invalid')
