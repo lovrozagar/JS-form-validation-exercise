@@ -8,6 +8,76 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1"
     />
     <title>Document</title>
-  <script defer src="bundled452bcf505368280b1ad.js"></script></head>
-  <body></body>
+  <script defer src="bundlef12f8b07cd123cc0abf1.js"></script></head>
+  <body>
+    <div id="content" class="content">
+      <main class="form-container">
+        <h1>Validation practice</h1>
+        <h2>Enter your details</h2>
+        <form id="form" class="form" action="" novalidate>
+          <div class="input-container">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="Email"
+              minlength="6"
+              maxlength="25"
+            />
+            <span id="email-error"></span>
+          </div>
+          <div class="country">
+            <div class="input-container">
+              <input
+                type="text"
+                name="country"
+                id="country"
+                required
+                placeholder="Country"
+                minlength="3"
+                maxlength="30"
+              />
+              <span id="country-error"></span>
+            </div>
+            <div class="input-container">
+              <input
+                type="tel"
+                name="zip-code"
+                id="zip-code"
+                required
+                placeholder="ZIP code"
+                minlength="4"
+                maxlength="12"
+              />
+              <span id="zip-code-error"></span>
+            </div>
+          </div>
+          <div class="input-container">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              placeholder="Password"
+              minlength="8"
+              maxlength="24"
+            />
+            <span id="password-error"></span>
+          </div>
+          <div class="input-container">
+            <input
+              type="password"
+              name="password-confirm"
+              id="password-confirm"
+              required
+              placeholder="Confirm password"
+            />
+            <span id="password-confirm-error"></span>
+          </div>
+          <button id="submit-button" class="submit-button">LOGIN</button>
+        </form>
+      </main>
+    </div>
+  </body>
 </html>

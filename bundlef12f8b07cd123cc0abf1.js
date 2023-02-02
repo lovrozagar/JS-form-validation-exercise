@@ -5988,6 +5988,180 @@
 
 /***/ }),
 
+/***/ "./src/modules/formValidation.js":
+/*!***************************************!*\
+  !*** ./src/modules/formValidation.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
+
+var formValidation = function () {
+  function domOnLoad() {
+    initInputValidation();
+  }
+  function initInputValidation() {
+    window.onload = function () {
+      // EMAIL LISTENERS
+      var email = document.getElementById('email');
+      email.addEventListener('focusout', function () {
+        validateEmail();
+        email.addEventListener('input', validateEmail);
+      });
+
+      // COUNTRY LISTENERS
+      var country = document.getElementById('country');
+      country.addEventListener('focusout', function () {
+        validateCountry();
+        country.addEventListener('input', validateCountry);
+      });
+
+      // ZIP CODE LISTENERS
+      var zipCode = document.getElementById('zip-code');
+      zipCode.addEventListener('focusout', function () {
+        validateZipCode();
+        zipCode.addEventListener('input', validateZipCode);
+      });
+
+      // ZIP CODE LISTENERS
+      var password = document.getElementById('password');
+      password.addEventListener('focusout', function () {
+        validatePassword();
+        password.addEventListener('input', validatePassword);
+      });
+
+      // PASSWORD CONFIRM LISTENERS
+      var passwordConfirm = document.getElementById('password-confirm');
+      passwordConfirm.addEventListener('focusout', function () {
+        validatePasswordConfirm();
+        passwordConfirm.addEventListener('input', validatePasswordConfirm);
+      });
+      var form = document.getElementById('form');
+      form.addEventListener('submit', function (event) {
+        return validateAllOnSubmit(event);
+      });
+    };
+  }
+  function validateAllOnSubmit(event) {
+    event.preventDefault();
+    // EMAIL
+    validateEmail();
+    var email = document.getElementById('email');
+    email.addEventListener('input', validateEmail);
+    // COUNTRY
+    validateCountry();
+    var country = document.getElementById('country');
+    country.addEventListener('input', validateCountry);
+    // ZIP CODE
+    validateZipCode();
+    var zipCode = document.getElementById('zip-code');
+    zipCode.addEventListener('input', validateZipCode);
+    // PASSWORD
+    validatePassword();
+    var password = document.getElementById('password');
+    password.addEventListener('input', validatePassword);
+    // CONFIRM PASSWORD
+    validatePasswordConfirm();
+    var passwordConfirm = document.getElementById('password-confirm');
+    passwordConfirm.addEventListener('input', validatePasswordConfirm);
+  }
+  function validateEmail() {
+    var email = document.getElementById('email');
+    var emailError = document.getElementById('email-error');
+    if (isEmptyField(email, emailError)) return;
+    var emailPattern = /^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+$/;
+    if (!emailPattern.test(email.value)) {
+      emailError.textContent = 'Value entered must be an email';
+      email.classList.add('invalid');
+      return;
+    }
+    if (isTooShort(email, emailError)) return;
+    removeError(email, emailError);
+    email.removeEventListener('input', validateEmail);
+  }
+  function validateCountry() {
+    var country = document.getElementById('country');
+    var countryError = document.getElementById('country-error');
+    if (isEmptyField(country, countryError)) return;
+    var countryPattern = /^[a-zA-Z]+$/;
+    if (!countryPattern.test(country.value)) {
+      setError(country, countryError, 'Letters allowed only');
+      return;
+    }
+    if (isTooShort(country, countryError)) return;
+    removeError(country, countryError);
+    country.removeEventListener('input', validateCountry);
+  }
+  function validateZipCode() {
+    var zipCode = document.getElementById('zip-code');
+    var zipCodeError = document.getElementById('zip-code-error');
+    if (isEmptyField(zipCode, zipCodeError)) return;
+    var countryPattern = /^[0-9]+$/;
+    if (!countryPattern.test(zipCode.value)) {
+      setError(zipCode, zipCodeError, 'Numbers allowed only');
+      return;
+    }
+    if (isTooShort(zipCode, zipCodeError)) return;
+    removeError(zipCode, zipCodeError);
+    zipCode.removeEventListener('input', validateZipCode);
+  }
+  function validatePassword() {
+    var password = document.getElementById('password');
+    var passwordError = document.getElementById('password-error');
+    if (isEmptyField(password, passwordError)) return;
+    if (isTooShort(password, passwordError)) return;
+    var countryPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/;
+    if (!countryPattern.test(password.value)) {
+      setError(password, passwordError, 'Should contain at least one uppercase letter, one lowercase letter and one number');
+      return;
+    }
+    removeError(password, passwordError);
+    password.removeEventListener('input', validatePassword);
+  }
+  function validatePasswordConfirm() {
+    var passwordConfirm = document.getElementById('password-confirm');
+    var passwordConfirmError = document.getElementById('password-confirm-error');
+    if (isEmptyField(passwordConfirm, passwordConfirmError)) {
+      return;
+    }
+    var password = document.getElementById('password');
+    if (passwordConfirm.value !== password.value) {
+      setError(passwordConfirm, passwordConfirmError, 'Passwords do not match');
+      return;
+    }
+    removeError(passwordConfirm, passwordConfirmError);
+    passwordConfirm.removeEventListener('input', validatePasswordConfirm);
+  }
+  function isEmptyField(inputEl, errorEl) {
+    if (inputEl.validity.valueMissing) setError(inputEl, errorEl, 'This field is required');
+    return inputEl.validity.valueMissing;
+  }
+  function isTooShort(inputEl, errorEl) {
+    if (inputEl.validity.tooShort) setError(inputEl, errorEl, "Minimum ".concat(inputEl.minLength, " characters required"));
+    return inputEl.validity.tooShort;
+  }
+  function setError(inputEl, errorEl, errorString) {
+    errorEl.textContent = errorString;
+    inputEl.classList.add('invalid');
+  }
+  function removeError(inputEl, errorEl) {
+    errorEl.textContent = '';
+    inputEl.classList.remove('invalid');
+  }
+  return {
+    domOnLoad: domOnLoad
+  };
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (formValidation);
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/resolve-url-loader/index.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss":
 /*!******************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/resolve-url-loader/index.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss ***!
@@ -6004,14 +6178,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_reset_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./reset.css */ "./node_modules/css-loader/dist/cjs.js!./src/styles/reset.css");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_3__);
 // Imports
 
 
 
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../assets/bg2.svg */ "./src/assets/bg2.svg"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_reset_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_3___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "*,\n*::before,\n*::after {\n  box-sizing: border-box;\n}\n\nhtml {\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  height: 100%;\n}\n\nhtml,\nbody {\n  padding: 0;\n  margin: 0;\n  overflow: hidden;\n  width: 100vw;\n  height: 100vh;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAEA;;;EAGE,sBAAA;AAAF;;AAGA;EACE,wIAAA;EAEA,eAAA;EACA,YAAA;AADF;;AAIA;;EAEE,UAAA;EACA,SAAA;EACA,gBAAA;EACA,YAAA;EACA,aAAA;AADF","sourcesContent":["@import './reset.css';\n\n*,\n*::before,\n*::after {\n  box-sizing: border-box;\n}\n\nhtml {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,\n    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\n  font-size: 16px;\n  height: 100%;\n}\n\nhtml,\nbody {\n  padding: 0;\n  margin: 0;\n  overflow: hidden;\n  width: 100vw;\n  height: 100vh;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "*,\n*::before,\n*::after {\n  box-sizing: border-box;\n}\n\nhtml {\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  height: 100%;\n}\n\nhtml,\nbody {\n  padding: 0;\n  margin: 0;\n  overflow: hidden;\n  width: 100vw;\n  height: 100vh;\n}\n\nbody {\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: cover;\n  background-repeat: no-repeat;\n}\n\ninput {\n  height: 3rem;\n  width: 100%;\n  padding: 0 1rem;\n  border-radius: 10px;\n  outline-color: #5728d9;\n  border: none;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 1rem;\n  font-weight: 400;\n  background-color: #e0e7ff;\n}\n\ninput::placeholder {\n  font-weight: 500;\n  color: #9995a1;\n}\n\nspan {\n  margin-top: 0.2rem;\n  padding: 0 0.5rem;\n  font-size: 0.85rem;\n}\n\ninput.invalid {\n  border: 2px solid #b57df3;\n}\n\n.content {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.form-container {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  height: 70vh;\n  width: max(500px, 30vw);\n  max-width: 600px;\n  margin: 1rem;\n  border-radius: 1rem;\n  background-color: white;\n}\n.form-container h1 {\n  font-size: 2.5rem;\n  font-weight: bold;\n  margin-bottom: 0.5rem;\n}\n.form-container h2 {\n  font-size: 1.25rem;\n  font-weight: bold;\n  color: rgb(128, 128, 128);\n  margin-bottom: 3rem;\n}\n.form-container .form {\n  display: grid;\n  align-items: center;\n  gap: 1rem;\n  width: 80%;\n}\n.form-container .form .input-container {\n  display: grid;\n}\n.form-container .form .country {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 0.5rem;\n}\n.form-container .form .submit-button {\n  height: 3rem;\n  border: none;\n  border-radius: 10px;\n  font-size: 1.25rem;\n  font-weight: bold;\n  letter-spacing: 2px;\n  color: white;\n  background-color: #5728d9;\n  outline-color: transparent;\n}\n.form-container .form .submit-button:focus {\n  background: linear-gradient(90deg, rgb(87, 40, 217) 30%, rgb(40, 106, 217) 60%, rgb(0, 212, 255) 100%);\n}\n\n@media screen and (max-width: 480px) {\n  .form-container {\n    padding: 2rem 0;\n    height: auto;\n  }\n  h1 {\n    font-size: 1.65rem !important;\n  }\n  h2 {\n    font-size: 1.15rem !important;\n  }\n  input,\n  input::placeholder,\n  button {\n    font-size: 0.9rem !important;\n  }\n  span {\n    font-size: 0.8rem !important;\n  }\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAEA;;;EAGE,sBAAA;AAAF;;AAGA;EACE,wIAAA;EAEA,eAAA;EACA,YAAA;AADF;;AAIA;;EAEE,UAAA;EACA,SAAA;EACA,gBAAA;EACA,YAAA;EACA,aAAA;AADF;;AAIA;EACE,yDAAA;EACA,sBAAA;EACA,4BAAA;AADF;;AAIA;EACE,YAAA;EACA,WAAA;EACA,eAAA;EACA,mBAAA;EACA,sBAAA;EACA,YAAA;EACA,wIAAA;EAEA,eAAA;EACA,gBAAA;EACA,yBAAA;AAFF;;AAKA;EACE,gBAAA;EACA,cAAA;AAFF;;AAKA;EACE,kBAAA;EACA,iBAAA;EACA,kBAAA;AAFF;;AAKA;EACE,yBAAA;AAFF;;AAKA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;AAFF;;AAKA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,YAAA;EACA,uBAAA;EACA,gBAAA;EACA,YAAA;EACA,mBAAA;EACA,uBAAA;AAFF;AAIE;EACE,iBAAA;EACA,iBAAA;EACA,qBAAA;AAFJ;AAIE;EACE,kBAAA;EACA,iBAAA;EACA,yBAAA;EACA,mBAAA;AAFJ;AAKE;EACE,aAAA;EACA,mBAAA;EACA,SAAA;EACA,UAAA;AAHJ;AAKI;EACE,aAAA;AAHN;AAMI;EACE,aAAA;EACA,8BAAA;EACA,WAAA;AAJN;AAOI;EACE,YAAA;EACA,YAAA;EACA,mBAAA;EACA,kBAAA;EACA,iBAAA;EACA,mBAAA;EACA,YAAA;EACA,yBAAA;EACA,0BAAA;AALN;AAOM;EACE,sGAAA;AALR;;AAgBA;EACE;IACE,eAAA;IACA,YAAA;EAbF;EAeA;IACE,6BAAA;EAbF;EAeA;IACE,6BAAA;EAbF;EAeA;;;IAGE,4BAAA;EAbF;EAeA;IACE,4BAAA;EAbF;AACF","sourcesContent":["@import './reset.css';\n\n*,\n*::before,\n*::after {\n  box-sizing: border-box;\n}\n\nhtml {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,\n    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\n  font-size: 16px;\n  height: 100%;\n}\n\nhtml,\nbody {\n  padding: 0;\n  margin: 0;\n  overflow: hidden;\n  width: 100vw;\n  height: 100vh;\n}\n\nbody {\n  background-image: url('../assets/bg2.svg');\n  background-size: cover;\n  background-repeat: no-repeat;\n}\n\ninput {\n  height: 3rem;\n  width: 100%;\n  padding: 0 1rem;\n  border-radius: 10px;\n  outline-color: #5728d9;\n  border: none;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,\n    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\n  font-size: 1rem;\n  font-weight: 400;\n  background-color: #e0e7ff;\n}\n\ninput::placeholder {\n  font-weight: 500;\n  color: #9995a1;\n}\n\nspan {\n  margin-top: 0.2rem;\n  padding: 0 0.5rem;\n  font-size: 0.85rem;\n}\n\ninput.invalid {\n  border: 2px solid #b57df3;\n}\n\n.content {\n  width: 100vw;\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.form-container {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  height: 70vh;\n  width: max(500px, 30vw);\n  max-width: 600px;\n  margin: 1rem;\n  border-radius: 1rem;\n  background-color: white;\n\n  h1 {\n    font-size: 2.5rem;\n    font-weight: bold;\n    margin-bottom: 0.5rem;\n  }\n  h2 {\n    font-size: 1.25rem;\n    font-weight: bold;\n    color: rgb(128, 128, 128);\n    margin-bottom: 3rem;\n  }\n\n  .form {\n    display: grid;\n    align-items: center;\n    gap: 1rem;\n    width: 80%;\n\n    .input-container {\n      display: grid;\n    }\n\n    .country {\n      display: grid;\n      grid-template-columns: 1fr 1fr;\n      gap: 0.5rem;\n    }\n\n    .submit-button {\n      height: 3rem;\n      border: none;\n      border-radius: 10px;\n      font-size: 1.25rem;\n      font-weight: bold;\n      letter-spacing: 2px;\n      color: white;\n      background-color: #5728d9;\n      outline-color: transparent;\n\n      &:focus {\n        background: linear-gradient(\n          90deg,\n          rgba(87, 40, 217, 1) 30%,\n          rgba(40, 106, 217, 1) 60%,\n          rgba(0, 212, 255, 1) 100%\n        );\n      }\n    }\n  }\n}\n\n@media screen and (max-width: 480px) {\n  .form-container {\n    padding: 2rem 0;\n    height: auto;\n  }\n  h1 {\n    font-size: 1.65rem !important;\n  }\n  h2 {\n    font-size: 1.15rem !important;\n  }\n  input,\n  input::placeholder,\n  button {\n    font-size: 0.9rem !important;\n  }\n  span {\n    font-size: 0.8rem !important;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6136,6 +6315,42 @@ module.exports = function (cssWithMappingToString) {
     }
   };
   return list;
+};
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
+/*!********************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    options = {};
+  }
+  if (!url) {
+    return url;
+  }
+  url = String(url.__esModule ? url.default : url);
+
+  // If url is already wrapped in quotes, remove them
+  if (/^['"].*['"]$/.test(url)) {
+    url = url.slice(1, -1);
+  }
+  if (options.hash) {
+    url += options.hash;
+  }
+
+  // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+  }
+  return url;
 };
 
 /***/ }),
@@ -6531,6 +6746,28 @@ function styleTagTransform(css, styleElement) {
 
 module.exports = styleTagTransform;
 
+/***/ }),
+
+/***/ "./src/assets/bg.png":
+/*!***************************!*\
+  !*** ./src/assets/bg.png ***!
+  \***************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "bg.png";
+
+/***/ }),
+
+/***/ "./src/assets/bg2.svg":
+/*!****************************!*\
+  !*** ./src/assets/bg2.svg ***!
+  \****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "bg2.svg";
+
 /***/ })
 
 /******/ 	});
@@ -6559,6 +6796,9 @@ module.exports = styleTagTransform;
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -6584,6 +6824,18 @@ module.exports = styleTagTransform;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -6598,6 +6850,52 @@ module.exports = styleTagTransform;
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"bundle": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */
@@ -6622,14 +6920,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_fontawesome_free_js_regular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_fontawesome_free_js_regular__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _fortawesome_fontawesome_free_js_brands__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/fontawesome-free/js/brands */ "./node_modules/@fortawesome/fontawesome-free/js/brands.js");
 /* harmony import */ var _fortawesome_fontawesome_free_js_brands__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_fontawesome_free_js_brands__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+/* harmony import */ var _modules_formValidation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/formValidation */ "./src/modules/formValidation.js");
+/* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+/* harmony import */ var _assets_bg_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./assets/bg.png */ "./src/assets/bg.png");
+/* harmony import */ var _assets_bg2_svg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./assets/bg2.svg */ "./src/assets/bg2.svg");
 
 
 
 
 
+
+
+
+_modules_formValidation__WEBPACK_IMPORTED_MODULE_4__["default"].domOnLoad();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundled452bcf505368280b1ad.js.map
+//# sourceMappingURL=bundlef12f8b07cd123cc0abf1.js.map
