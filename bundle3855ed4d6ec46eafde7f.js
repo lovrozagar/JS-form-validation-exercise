@@ -6004,7 +6004,18 @@ __webpack_require__.r(__webpack_exports__);
 
 var formValidation = function () {
   function domOnLoad() {
+    initAppHeight();
     initInputValidation();
+  }
+
+  // APP HEIGHT 100VH FIX
+  function initAppHeight() {
+    var appHeight = function appHeight() {
+      var doc = document.documentElement;
+      doc.style.setProperty('--app-height', "".concat(window.innerHeight, "px"));
+    };
+    window.addEventListener('resize', appHeight);
+    appHeight();
   }
   function initInputValidation() {
     window.onload = function () {
@@ -6937,4 +6948,4 @@ _modules_formValidation__WEBPACK_IMPORTED_MODULE_4__["default"].domOnLoad();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlef12f8b07cd123cc0abf1.js.map
+//# sourceMappingURL=bundle3855ed4d6ec46eafde7f.js.map
